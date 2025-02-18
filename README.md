@@ -1,26 +1,24 @@
-# LLM Token Counter Using Azure Function in Azure API Management
+# LLM Token Counter Using Azure Functions in Azure API Management
 
-Self-hosted models or open-source models often lack the capability to track usage metrics. This example is to demonstrate how to count the tokens of the chat completion in Azure API Management.
+Self-hosted or open-source models often lack a way to track usage metrics. This example demonstrates how to count the tokens in a chat completion using Azure Functions and Azure API Management.
 
-This example demonstrates how to count the tokens of the chat completion in Azure API Management.
+Key components:
+- An Azure Function to count chat completion tokens
+- A `send-request` policy in Azure API Management to call the Azure Function
+- An `emit-metric` policy in Azure API Management to send the total token count to Azure Application Insights as a custom metric
 
-Key components of this example are:
-
-- Azure Functions to count the tokens of the chat completion
-- Azure API Management `send-request` policy to call the Azure Function
-- Azure API Management `emit-metric` policy to emit the total tokens to Azure App Insights as Custom Metrics
-
-Llama-3-8B is used as an example (though it does return the token count in the response), and basic method here can be applied to any other models as well.
+This example uses the Llama-3-8B model (though it does return token counts in its responses), and the same approach can be applied to other models.
 
 ## AutoTokenizer
 
-AutoTokenizer from Hugging Face is used to count the tokens of the chat completion. The tokenizer is loaded from the model hub using the model name. If model of your choice is gated model, you will need to first go to the model page and request access. Llama 3 models are gated models, so this is required pre-requisite.
+A Hugging Face AutoTokenizer is used to count chat completion tokens. The tokenizer is loaded from the model hub by specifying the model name. If your chosen model is gated, you must request access on its model page first. Llama 3 models are gated, so this is a prerequisite.
 
 ![Hugging Face Gated Models](images/gated.png "Gated Models")
 
 ## Deploy Azure Function
 
-Highly recommend to use Managed Identity for Storage Account with Azure Function. (https://techcommunity.microsoft.com/blog/appsonazureblog/use-managed-identity-instead-of-azurewebjobsstorage-to-connect-a-function-app-to/3657606)
+Using a Managed Identity for the Storage Account with Azure Functions is highly recommended:
+(https://techcommunity.microsoft.com/blog/appsonazureblog/use-managed-identity-instead-of-azurewebjobsstorage-to-connect-a-function-app-to/3657606)
 
 ![Managed Identity](images/mi-sa.png "Managed Identity")
 
@@ -28,10 +26,9 @@ Highly recommend to use Managed Identity for Storage Account with Azure Function
 func azure functionapp publish llama-counter-jay
 ```
 
-
 ## Azure API Management Policy
 
-In order to emit metrics to Azure App Insights, we need to configure App Insights as a diagnostic setting in Azure API Management. 
+In order to emit custom metrics to Azure App Insights, we need to configure App Insights as a diagnostic setting in Azure API Management. 
 
 ![App Insights](images/apim-1.png "App Insights")
 ![App Insights](images/apim-2.png "App Insights")
@@ -87,7 +84,7 @@ The following policy is an example of how to emit metrics to App Insights.
 </policies>
 ```
 
-. GITHUB-TOKEN: This is the PAT to access GitHub Models. You can create a PAT from your GitHub account.
+- GITHUB-TOKEN: This is the PAT to access GitHub Models. You can create a PAT from your GitHub account.
 
 ## Metrics on App Insights
 
