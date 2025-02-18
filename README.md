@@ -1,12 +1,16 @@
 # LLM Token Counter Using Azure Function in Azure API Management
 
-This example is to demonstrate how to count the tokens of the chat completion in Azure API Management. Key components of this example are:
+Self-hosted models or open-source models often lack the capability to track usage metrics. This example is to demonstrate how to count the tokens of the chat completion in Azure API Management.
+
+This example demonstrates how to count the tokens of the chat completion in Azure API Management.
+
+Key components of this example are:
 
 - Azure Functions to count the tokens of the chat completion
 - Azure API Management `send-request` policy to call the Azure Function
 - Azure API Management `emit-metric` policy to emit the total tokens to Azure App Insights as Custom Metrics
 
-Llama-3-8B is used as an example, but this basic method can be applied to any other models as well.
+Llama-3-8B is used as an example (though it does return the token count in the response), and basic method here can be applied to any other models as well.
 
 ## AutoTokenizer
 
