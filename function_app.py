@@ -68,7 +68,7 @@ def TokenCounter(req: func.HttpRequest) -> func.HttpResponse:
         }
     }
 
-    logger.info(f"Number of tokens in your text: {response_data}")
+    logger.info(f"Number of tokens: {response_data}")
 
     return func.HttpResponse(
         json.dumps(response_data),

@@ -1,4 +1,12 @@
-# Token Counter for Llama 3 models on Azure API Management
+# LLM Token Counter Using Azure Function in Azure API Management
+
+This example is to demonstrate how to count the tokens of the chat completion in Azure API Management. Key components of this example are:
+
+- Azure Functions to count the tokens of the chat completion
+- Azure API Management `send-request` policy to call the Azure Function
+- Azure API Management `emit-metric` policy to emit the total tokens to Azure App Insights as Custom Metrics
+
+Llama-3-8B is used as an example, but this basic method can be applied to any other models as well.
 
 ## AutoTokenizer
 
@@ -35,7 +43,6 @@ The following policy is an example of how to emit metrics to App Insights.
         <set-header name="Authorization" exists-action="override">
             <value>Bearer {{GITHUB-TOKEN}}</value>
         </set-header>
-        <set-variable name="RequestBody" value="@(context.Request.Body.As<string>(preserveContent: true))" />
     </inbound>
     <!-- Control if and how the requests are forwarded to services  -->
     <backend>
@@ -47,7 +54,6 @@ The following policy is an example of how to emit metrics to App Insights.
         <send-request mode="new" response-variable-name="usage" timeout="20" ignore-error="true">
             <set-url>https://[Function_URL]/api/tokencounter</set-url>
             <set-method>POST</set-method>
-            </set-header-->
             <set-header name="Content-Type" exists-action="override">
                 <value>application/json</value>
             </set-header>
