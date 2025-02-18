@@ -6,6 +6,16 @@ AutoTokenizer from Hugging Face is used to count the tokens of the chat completi
 
 ![Hugging Face Gated Models](images/gated.png "Gated Models")
 
+## Deploy Azure Function
+
+Highly recommend to use Managed Identity for Storage Account with Azure Function. (https://techcommunity.microsoft.com/blog/appsonazureblog/use-managed-identity-instead-of-azurewebjobsstorage-to-connect-a-function-app-to/3657606)
+
+![Managed Identity](images/mi-sa.png "Managed Identity")
+
+```bash
+func azure functionapp publish llama-counter-jay
+```
+
 
 ## Azure API Management Policy
 
@@ -66,6 +76,8 @@ The following policy is an example of how to emit metrics to App Insights.
     </on-error>
 </policies>
 ```
+
+. GITHUB-TOKEN: This is the PAT to access GitHub Models. You can create a PAT from your GitHub account.
 
 ## Metrics on App Insights
 
